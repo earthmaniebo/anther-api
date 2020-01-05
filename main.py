@@ -5,7 +5,6 @@ from app.service_domain import ServiceDomainController
 
 app = Flask(__name__)
 app.debug = True
-app.config['SERVER_NAME'] = '127.0.0.1:5000'
 
 app.register_blueprint(BusinessAreaController)
 app.register_blueprint(BusinessDomainController)
@@ -17,4 +16,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='localhost', port=5001, threaded=True)
