@@ -1,8 +1,7 @@
 from .model import BusinessArea, db_session
 from sqlalchemy.exc import DatabaseError, IntegrityError
 from sqlalchemy.orm.exc import UnmappedInstanceError
-from flask import jsonify, abort, request, make_response, url_for, Response, json, Blueprint
-from bson.json_util import dumps
+from flask import jsonify, Blueprint, request
 from app.database import db_session, Base
 
 BusinessAreaController = Blueprint('BusinessAreaController', __name__)
@@ -11,15 +10,17 @@ BusinessAreaController = Blueprint('BusinessAreaController', __name__)
 @BusinessAreaController.route('/anther/api/business-area', methods = ['POST'])
 def create_business_area():
     try:
-        name = request.json['name']
+        # nullable
         description = None
+
+        name = request.json['name']
         if 'description' in request.json:
             description = request.json['description']
+
         business_area = BusinessArea(name, description)
         db_session.add(business_area)
         db_session.commit()
-        if business_area.name != '':
-            return jsonify(business_area.serialize), 201
+        return jsonify(business_area.serialize), 201
 
     except KeyError as ke:
         db_session.rollback()

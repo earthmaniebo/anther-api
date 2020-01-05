@@ -16,7 +16,7 @@ class BusinessArea(Base):
     @property
     def serialize(self):
         return {
-            'id' : self.id,
-            'name' : self.name,
+            'id': self.id,
+            'name': self.name,
             'description': self.description
         }
